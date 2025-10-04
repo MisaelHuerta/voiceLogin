@@ -1,0 +1,12 @@
+{
+    "access":{
+      "login":{
+          "title": "Te damos la bienvenida a Banco Azteca!",
+          "subtitle":"Usa tu prestamo como dinero en efectivo o compra en donde quieras.",
+          "name":"¿Cómo prefieres que te llamemos?",
+          "name_placeholder":"Escribe tu nombre",
+          "name_limit":"caracteres",
+          "button":"Comenzar"
+      }
+    }  
+}

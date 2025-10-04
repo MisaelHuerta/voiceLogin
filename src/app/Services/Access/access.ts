@@ -1,0 +1,22 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+import { GlobalUrl } from '../../Models/url.models';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class Access {
+
+  private url: string = GlobalUrl.URL;
+
+  constructor(private http: HttpClient) {
+  }
+
+  public login(data: any): Observable<any>{
+    return this.http.post(this.url + 'encryptUserName/', data  );
+  };
+  
+}

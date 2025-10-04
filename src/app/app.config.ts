@@ -1,12 +1,41 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideClientHydration } from '@angular/platform-browser';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { LoadingInterceptor } from './Interceptors/loading.interceptor';
 
 import { routes } from './app.routes';
 
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes)
-  ]
+  export function HttpLoaderFactory(httpClient: HttpClient) {
+    return  new  TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
+  };
+
+  export const provideTranslation = () => ({
+    defaultLanguage: 'es',
+    loader: {
+      provide: TranslateLoader,
+      useFactory: HttpLoaderFactory,
+      deps: [HttpClient],
+    },
+  });
+  
+  export const appConfig: ApplicationConfig = {
+    providers: [
+      provideBrowserGlobalErrorListeners(),
+      provideZoneChangeDetection({ eventCoalescing: true }),
+      provideAnimations(), // required animations providers
+      { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+      provideHttpClient(),
+      importProvidersFrom([
+        HttpClientModule, 
+        TranslateModule.forRoot(provideTranslation())
+      ]),
+      provideRouter(routes),
+      provideClientHydration(),
+      //LoginGuardian
+    ]
 };
