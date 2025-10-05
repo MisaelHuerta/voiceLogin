@@ -16,7 +16,11 @@ export class Access {
   }
 
   public encryptUserName(data: any): Observable<any>{
-    return this.http.post(this.url + 'encryptUserName/', data  );
+    return this.http.post(this.url + 'api/encryptUserName/', data  );
+  };
+
+  public getRecords(): Observable<any>{
+    return this.http.get(this.url + 'api/records'  );
   };
   
 }

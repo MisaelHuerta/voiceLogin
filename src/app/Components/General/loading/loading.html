@@ -1,3 +1,12 @@
 @if(isLoading$|async){
-    <p>loading works!</p>
+    <!-- <div id="container-load">
+        <div id="load" class="spinner-border color-accent" role="status">
+            <span class="loader"></span>
+        </div>
+    </div> -->
+    <div class="loadingContainer" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center ">
+        <div id="load" fxFlex="10" fxLayout="row wrap" fxLayoutAlign="center center">
+            <img class="loader--gif" src="{{gif}}" alt="" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
+        </div>
+    </div>
 }

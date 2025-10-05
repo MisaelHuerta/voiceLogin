@@ -1,7 +1,7 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, Inject, PLATFORM_ID } from '@angular/core';
 import { Observable, Subject, from, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
+import { isPlatformBrowser } from '@angular/common'; 
 // 1. Declaración global para la API de Reconocimiento de Voz
 declare var webkitSpeechRecognition: any;
 declare var SpeechRecognition: any;
@@ -17,9 +17,15 @@ export class Microphone {
   // Subject para emitir errores de reconocimiento
   public recognitionError$: Subject<string> = new Subject<string>();
 
-  constructor(private ngZone: NgZone) {
-    this.initializeRecognition();
-  }
+   constructor(
+      private ngZone: NgZone,
+      @Inject(PLATFORM_ID) private platformId: Object
+     ) 
+     {
+      if (isPlatformBrowser(this.platformId)) {
+        this.initializeRecognition();
+      }
+    }
   /**
    * Solicita al usuario permiso para acceder al micrófono.
    * @returns Observable<MediaStream> El stream de audio si se concede el permiso.
@@ -121,7 +127,6 @@ export class Microphone {
     if (this.recognition) {
         try {
             this.recognition.start();
-            console.log('Comenzando a escuchar...');
         } catch(e) {
             console.error('Error al iniciar el reconocimiento de voz. Asegúrate de que el micrófono esté activo y de que no haya otro proceso de reconocimiento en curso.', e);
         }
@@ -136,7 +141,6 @@ export class Microphone {
   stopListening(): void {
     if (this.recognition) {
       this.recognition.stop();
-      console.log('Deteniendo la escucha.');
     }
   }
 }

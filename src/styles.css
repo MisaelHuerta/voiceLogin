@@ -62,3 +62,11 @@ body {
 .button__visibility:hover{
     color: var(--primary);
 }
+
+.age-dialog-container {
+    padding: 0!important;
+    border-radius: 15px!important;
+    backdrop-filter: blur(30px)!important;
+    box-shadow: 0px 0px 8px 3px var(--primary)!important;
+    background-color: var(--black-one)!important;
+  }

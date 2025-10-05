@@ -6,11 +6,13 @@ import { CommonModule } from '@angular/common';
 /**Angular Material */
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Microphone } from '../../../Services/Functions/microphone';
 //import { MediaStream } from 'rxjs/internal/observable/from';
 import { Subscription } from 'rxjs';
 import { Access } from '../../../Services/Access/access';
+import { Message } from '../../../Components/General/message/message';
 
 @Component({
   selector: 'app-login',
@@ -47,7 +49,8 @@ export class Login implements OnDestroy {
     private micService: Microphone,
     private route: Router, 
     private aroute: ActivatedRoute,
-    private Service: Access 
+    private Service: Access,
+    private dialog: MatDialog
   ) {
     this.requestInitialPermission();
     
@@ -85,7 +88,7 @@ export class Login implements OnDestroy {
           next: (stream) => {
               this.audioStream = stream;
               this.micPermissionGranted = true;
-              this.micStatus = '✅ Permiso concedido. Listo para escuchar.';
+              this.micStatus = 'Permiso concedido. Listo para escuchar.';
               // Detenemos el stream de audio inmediatamente después de obtener el permiso 
               // para no mantener la luz del micrófono encendida innecesariamente.
               // La API de Web Speech se encarga de reabrirlo cuando se llama a start().
@@ -94,7 +97,7 @@ export class Login implements OnDestroy {
               this.iconAux = 'mic';
           },
           error: (err) => {
-              this.micStatus = `❌ ${err.message}`;
+              this.micStatus = `${err.message}`;
               this.micPermissionGranted = false;
               this.iconAux = 'mic_off';
           }
@@ -112,7 +115,7 @@ export class Login implements OnDestroy {
       this.transcription = 'Escuchando... Hable ahora.';
       this.micService.startListening();
       this.isListening = true;
-      this.micStatus = '🔴 Grabando';
+      this.micStatus = 'Grabando';
       this.iconAux = 'mic_none';
     }
   }
@@ -121,7 +124,6 @@ export class Login implements OnDestroy {
     if (this.isListening){
       this.toggleListening();
     }
-    console.log("Enviar Formulario",this.form.value);
     if(this.form.valid){
       const data = {
         name : this.form.value.name
@@ -129,13 +131,32 @@ export class Login implements OnDestroy {
       this.Service.encryptUserName(data).subscribe(
         res => {
           console.log("res",res);
+          const data = {
+            message: "¡Operación exitosa!" ,
+            aditionalInfo: res.message
+          };
+          this.openDialog(data);
         },
         error => {
           console.log("res",error);
         }
       );
     }
-  }
+  };
+
+  openDialog(dataMessage: any){
+    let dialogRef = this.dialog.open(Message, {
+      width: '650px',
+      //height: '300px',
+      data: dataMessage,
+      panelClass: 'age-dialog-container',
+    });
+    dialogRef.afterClosed().subscribe((data: any) => {
+      if (data === 'aceptar') {
+      }
+      dialogRef.close();
+    });
+  };
 
   ngOnDestroy(): void {
     this.micService.stopListening();

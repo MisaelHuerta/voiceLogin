@@ -1,7 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideClientHydration } from '@angular/platform-browser';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -39,7 +39,7 @@ import { routes } from './app.routes';
         withFetch() // Habilita la implementación de 'fetch' para SSR
       ),
       provideRouter(routes),
-      provideClientHydration(),
+      provideClientHydration(), provideClientHydration(withEventReplay()),
       //LoginGuardian
     ]
 };

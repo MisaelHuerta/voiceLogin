@@ -1,1 +1,13 @@
-<p>message works!</p>
+<div class="messageContainer">
+    <h1 class="message__title">
+        {{data.message}}
+    </h1>
+    @if(data.aditionalInfo){
+        <p class="message__subtitle">
+            {{data.aditionalInfo}}
+        </p>
+    }
+    <div class="message__button">
+        <button class="button" [mat-dialog-close]="'aceptar'">Aceptar</button>
+    </div>
+</div>
