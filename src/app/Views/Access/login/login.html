@@ -17,7 +17,7 @@
             ¿Cómo prefieres que te llamemos?
         </span>
 
-        <mat-form-field class="form__input" appearance="fill">
+        <mat-form-field class="form__input minimal-input" appearance="outline">
             <mat-label>Escribe tu nombre</mat-label>
             <input matInput #name formControlName="name" required type="text" readonly >
             <button class="button__visibility" mat-icon-button matSuffix (click)="toggleListening()" [disabled]="!micPermissionGranted">
