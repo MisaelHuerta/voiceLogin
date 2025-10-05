@@ -1,30 +1,33 @@
 <div class="login__container">
     <div class="img__container">
-        <img class="img__container--img" src="" alt="humans">
+        <img class="img__container--img" src="/assets/img/humans.png" alt="humans">
     </div>
-    <h1 class = "login__title">
-        {{'access.login.title' | translate}}
-    </h1>
-    <p class = "login__subtitle">
-        {{'access.login.subtitle' | translate}}
-    </p>
-    <form class="form__container" [formGroup]="form" >
-        <p class="form__hint">
-            {{'access.login.subtitle' | translate}}
+    <div class="titles__container">
+        <h1 class="login__title">
+            ¡Te damos la <br>
+            bienvenida a <br>
+            Banco Azteca!
+        </h1>
+        <p class="login__subtitle">
+            Usa tu prestamo como dinero en efectivo o compra en donde quieras
         </p>
-        <mat-form-field appearance="outline" [floatLabel]="'always'">
-            <mat-label>{{'login.access.name' | translate}}</mat-label>
-            <input matInput formControlName="name" required type="text" readonly>
+    </div>
+    <form class="form__container" [formGroup]="form" >
+        <span class="form__hint">
+            ¿Cómo prefieres que te llamemos?
+        </span>
+
+        <mat-form-field class="form__input" appearance="fill">
+            <mat-label>Escribe tu nombre</mat-label>
+            <input matInput #name formControlName="name" required type="text" readonly >
+            <button class="button__visibility" mat-icon-button matSuffix (click)="toggleListening()" [disabled]="!micPermissionGranted">
+                <mat-icon>{{ iconAux }}</mat-icon>
+            </button>
+            <mat-hint align="end">{{name.value.length}}/{{limit}} caracteres</mat-hint>
         </mat-form-field>
-        <button (click)="toggleListening()" 
-        [disabled]="!micPermissionGranted">
-  {{ isListening ? 'Detener Escucha' : 'Iniciar Escucha' }}
-</button>
-<p>Estado del Micrófono: {{ micStatus }}</p>
-<p>Texto Reconocido: <strong>{{ transcription }}</strong></p>
-<p>Caracteres: <strong>{{ limit }}</strong></p>
+
         <div class="form__button">
-            <button class="button">
+            <button class="button" (click)="submit()">
                 Comenzar
             </button>
         </div>

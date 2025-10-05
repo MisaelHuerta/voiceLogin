@@ -35,6 +35,8 @@ export class Login implements OnDestroy {
   public micPermissionGranted: boolean = false;
   public isListening: boolean = false;
   public micStatus: string = 'Inactivo';
+  public iconAux: string = 'mic_off';
+  public iconHint: string = 'Permiso inhabilitado';
   public transcription: string = '';
   public limit: number = 15;
   private audioStream: MediaStream | null = null;
@@ -55,11 +57,17 @@ export class Login implements OnDestroy {
         name: text,
       });
       if(this.transcription.length > this.limit){
+        const auxName = this.transcription.slice(0,15);
+        this.form.patchValue({
+          name: auxName,
+        });
         // Puedes detener la escucha automáticamente aquí si 'continuous' es false
         this.isListening = true; 
         this.toggleListening();
       }
-
+      // Puedes detener la escucha automáticamente aquí si 'continuous' es false
+      //this.isListening = true; 
+      //this.toggleListening();
     }));
     
     // 2. Suscribirse a los errores de reconocimiento
@@ -81,10 +89,12 @@ export class Login implements OnDestroy {
               // La API de Web Speech se encarga de reabrirlo cuando se llama a start().
               this.micService.stopStream(stream); 
               this.audioStream = null;
+              this.iconAux = 'mic';
           },
           error: (err) => {
               this.micStatus = `❌ ${err.message}`;
               this.micPermissionGranted = false;
+              this.iconAux = 'mic_off';
           }
       });
   }
@@ -95,12 +105,21 @@ export class Login implements OnDestroy {
       this.micService.stopListening();
       this.isListening = false;
       this.micStatus = 'Detenido';
+      this.iconAux = 'mic';
     } else {
       this.transcription = 'Escuchando... Hable ahora.';
       this.micService.startListening();
       this.isListening = true;
       this.micStatus = '🔴 Grabando';
+      this.iconAux = 'mic_none';
     }
+  }
+
+  submit(){
+    if (this.isListening){
+      this.toggleListening();
+    }
+    console.log("Enviar Formulario",this.form.value);
   }
 
   ngOnDestroy(): void {
