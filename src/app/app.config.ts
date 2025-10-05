@@ -7,6 +7,7 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient } fr
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { LoadingInterceptor } from './Interceptors/loading.interceptor';
+import { provideServerRendering } from '@angular/platform-server'; // <-- Importación clave
 
 import { routes } from './app.routes';
 
@@ -15,7 +16,8 @@ import { routes } from './app.routes';
   };
 
   export const provideTranslation = () => ({
-    defaultLanguage: 'es',
+    //defaultLanguage: 'es',
+    fallbackLang: 'es',
     loader: {
       provide: TranslateLoader,
       useFactory: HttpLoaderFactory,
@@ -25,7 +27,6 @@ import { routes } from './app.routes';
   
   export const appConfig: ApplicationConfig = {
     providers: [
-      provideBrowserGlobalErrorListeners(),
       provideZoneChangeDetection({ eventCoalescing: true }),
       provideAnimations(), // required animations providers
       { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
@@ -36,6 +37,7 @@ import { routes } from './app.routes';
       ]),
       provideRouter(routes),
       provideClientHydration(),
+      provideServerRendering()
       //LoginGuardian
     ]
 };

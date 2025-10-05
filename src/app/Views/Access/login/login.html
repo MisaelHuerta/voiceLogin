@@ -1,4 +1,32 @@
-<div class="main__container">
-    <p>login works!</p>
-
+<div class="login__container">
+    <div class="img__container">
+        <img class="img__container--img" src="" alt="humans">
+    </div>
+    <h1 class = "login__title">
+        {{'access.login.title' | translate}}
+    </h1>
+    <p class = "login__subtitle">
+        {{'access.login.subtitle' | translate}}
+    </p>
+    <form class="form__container" [formGroup]="form" >
+        <p class="form__hint">
+            {{'access.login.subtitle' | translate}}
+        </p>
+        <mat-form-field appearance="outline" [floatLabel]="'always'">
+            <mat-label>{{'login.access.name' | translate}}</mat-label>
+            <input matInput formControlName="name" required type="text" readonly>
+        </mat-form-field>
+        <button (click)="toggleListening()" 
+        [disabled]="!micPermissionGranted">
+  {{ isListening ? 'Detener Escucha' : 'Iniciar Escucha' }}
+</button>
+<p>Estado del Micrófono: {{ micStatus }}</p>
+<p>Texto Reconocido: <strong>{{ transcription }}</strong></p>
+<p>Caracteres: <strong>{{ limit }}</strong></p>
+        <div class="form__button">
+            <button class="button">
+                Comenzar
+            </button>
+        </div>
+    </form>
 </div>

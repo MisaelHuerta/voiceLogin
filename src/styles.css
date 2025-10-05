@@ -1,1 +1,66 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("/assets/fonts/Montserrat/Montserrat-Regular.ttf");
+  }
+  
+  :root {
+    /*Colores*/
+    --white--one: #FFFFFF;
+    --black--one: #000000;
+    --black--two: #000000B2;
+    --black--three: #4A4A4AB2;
+    --primary: #0084D6;
+    --secondary: #004A98;
+    --tertiary: #157BF6;
+    --quaternary: ;
+    --error: ;
+    --gray--one: #A8ADAD;
+    --gray--two: #F5F6F7;
+    --stroke--one: #4a4a4a11;
+    --stroke--two: ;
+    --inactive: ;
+    --orange: ;
+    --primary--90: #EBF7FF;
+    /*Fuentes*/
+    --primary-fonts: "Montserrat";
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+:root body {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    color: var(--black--two);
+    background-color: var(--white--one);
+}
+
+.copy{
+    padding: 20px 5% 5px 0;
+    font-size: 15px;
+    color: var(--black--three);
+
+}
+.button{
+    color: var(--white--one);
+    background: transparent linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%) 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 10px 0;
+    cursor: pointer;
+    transition: 0.3s;
+    border: none;
+    margin: 5px 0;
+}
+.button:hover{
+    background: var(--black--one);
+}
