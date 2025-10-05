@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Microphone } from '../../../Services/Functions/microphone';
 //import { MediaStream } from 'rxjs/internal/observable/from';
 import { Subscription } from 'rxjs';
+import { Access } from '../../../Services/Access/access';
 
 @Component({
   selector: 'app-login',
@@ -45,7 +46,8 @@ export class Login implements OnDestroy {
   constructor(
     private micService: Microphone,
     private route: Router, 
-    private aroute: ActivatedRoute, 
+    private aroute: ActivatedRoute,
+    private Service: Access 
   ) {
     this.requestInitialPermission();
     
@@ -120,6 +122,19 @@ export class Login implements OnDestroy {
       this.toggleListening();
     }
     console.log("Enviar Formulario",this.form.value);
+    if(this.form.valid){
+      const data = {
+        name : this.form.value.name
+      }
+      this.Service.encryptUserName(data).subscribe(
+        res => {
+          console.log("res",res);
+        },
+        error => {
+          console.log("res",error);
+        }
+      );
+    }
   }
 
   ngOnDestroy(): void {

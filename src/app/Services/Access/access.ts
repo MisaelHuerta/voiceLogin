@@ -15,7 +15,7 @@ export class Access {
   constructor(private http: HttpClient) {
   }
 
-  public login(data: any): Observable<any>{
+  public encryptUserName(data: any): Observable<any>{
     return this.http.post(this.url + 'encryptUserName/', data  );
   };
   
